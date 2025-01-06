@@ -1,9 +1,9 @@
 package com.mpm.notificationsaver
 
+import android.content.Intent
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
-import android.content.Intent
 
 class NotificationListener : NotificationListenerService() {
 
@@ -24,7 +24,8 @@ override fun onNotificationPosted(sbn: StatusBarNotification) {
     """.trimIndent())
 
     // Save all notifications to database
-    val intent = Intent("com.mpm.notificationsaver.SAVE_NOTIFICATION")
+    val intent = Intent(this@NotificationListener, NotificationReceiver::class.java)
+    intent.action = "com.mpm.notificationsaver.SAVE_NOTIFICATION"
     intent.putExtra("package", packageName)
     intent.putExtra("title", title)
     intent.putExtra("text", text)
