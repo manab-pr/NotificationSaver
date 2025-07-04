@@ -20,7 +20,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:contentDescription="ICon"
-            android:src="@drawable/baseline_notifications_24"
+            android:src="@drawable/ic_launcher_foreground"
         />
 
         <!-- Header Text -->

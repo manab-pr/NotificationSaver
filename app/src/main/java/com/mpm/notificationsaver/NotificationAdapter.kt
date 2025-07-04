@@ -8,11 +8,13 @@ import com.mpm.notificationsaver.databinding.ItemNotificationBinding
 class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
 
     private var notifications = emptyList<NotificationEntity>()
+    var onItemClick: ((NotificationEntity) -> Unit)? = null
 
     inner class NotificationViewHolder(private val binding: ItemNotificationBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(notification: NotificationEntity) {
             binding.textViewTitle.text = notification.title
             binding.textViewMessage.text = notification.text
+            binding.root.setOnClickListener { onItemClick?.invoke(notification) }
         }
     }
 

@@ -30,8 +30,8 @@ class NotificationReceiver : BroadcastReceiver() {
             try {
                 val notification = NotificationEntity(
                     packageName = packageName,
-                    title = title,
-                    text = text,
+                    title = title ?: "",
+                    text = text ?: "",
                     timestamp = timestamp
                 )
                 dao.insert(notification)
