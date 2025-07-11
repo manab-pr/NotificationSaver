@@ -1,63 +1,62 @@
 package com.mpm.notificationsaver
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.mpm.notificationsaver.databinding.ActivityMainBinding
-import kotlinx.coroutines.launch
 import android.content.Intent
+import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.mpm.notificationsaver.repository.NotificationRepository
+import com.mpm.notificationsaver.ui.screens.NotificationScreen
+import com.mpm.notificationsaver.ui.theme.NotificationSaverTheme
+import com.mpm.notificationsaver.viewmodel.NotificationViewModel
+import com.mpm.notificationsaver.viewmodel.ViewModelFactory
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: NotificationAdapter
-    private lateinit var database: NotificationDatabase
+class MainActivity : ComponentActivity() {
+
+    private val database by lazy { NotificationDatabase.getInstance(this) }
+    private val repository by lazy { NotificationRepository(database.notificationDao()) }
+    private val viewModel: NotificationViewModel by viewModels {
+        ViewModelFactory(repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         if (!isNotificationListenerEnabled()) {
-            // Show dialog to request permission
-            showNotificationListenerDialog()
+            startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
         }
-
-        // Initialize database
-        database = NotificationDatabase.getInstance(applicationContext)
-
-        // Initialize RecyclerView and adapter
-        adapter = NotificationAdapter()
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Observe notifications
-        lifecycleScope.launch {
-            database.notificationDao().getAllNotifications().collect { notifications ->
-                Log.d("MainActivity", "Notifications: ${notifications.size}")
-                adapter.submitList(notifications)
+        setContent {
+            NotificationSaverTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val notifications by viewModel.notifications.collectAsState()
+                    NotificationScreen(notifications = notifications)
+                }
             }
         }
     }
+
     private fun isNotificationListenerEnabled(): Boolean {
-        val packageName = packageName
-        val flat = Settings.Secure.getString(contentResolver, "enabled_notification_listeners")
-        return flat?.contains(packageName) == true
+        return Settings.Secure.getString(contentResolver, "enabled_notification_listeners")
+            .contains(packageName)
     }
+}
 
-    private fun showNotificationListenerDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Permission Required")
-            .setMessage("This app needs notification access to save notifications. Please enable it in Settings.")
-            .setPositiveButton("Open Settings") { _, _ ->
-                startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    NotificationSaverTheme {
+        NotificationScreen(notifications = emptyList())
     }
 }
