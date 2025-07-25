@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Completely disable all network traffic for privacy -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <!-- No trust anchors = no network access -->
+        </trust-anchors>
+    </base-config>
+</network-security-config>

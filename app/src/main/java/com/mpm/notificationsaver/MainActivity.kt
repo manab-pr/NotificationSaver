@@ -15,8 +15,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.mpm.notificationsaver.repository.NotificationRepository
-import com.mpm.notificationsaver.ui.screens.NotificationScreen
+import com.mpm.notificationsaver.ui.screens.NotificationScreenWithBottomBar
 import com.mpm.notificationsaver.ui.theme.NotificationSaverTheme
+import com.mpm.notificationsaver.NotificationSaverApp
 import com.mpm.notificationsaver.viewmodel.NotificationViewModel
 import com.mpm.notificationsaver.viewmodel.ViewModelFactory
 
@@ -40,8 +41,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val notifications by viewModel.notifications.collectAsState()
-                    NotificationScreen(notifications = notifications)
+                    NotificationSaverApp()
                 }
             }
         }
@@ -53,10 +53,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    NotificationSaverTheme {
-        NotificationScreen(notifications = emptyList())
-    }
-}
