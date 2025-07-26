@@ -1,15 +1,50 @@
+# Built application files
+*.apk
+*.ap_
+*.aab
+
+# Keystore files (security risk)
+*.jks
+*.keystore
+
+# IntelliJ IDEA / Android Studio
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+.idea/
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+# Gradle
+.gradle/
+build/
+*/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local configuration file (contains SDK path etc.)
 local.properties
+
+# MacOS
+.DS_Store
+
+# Android NDK
+.externalNativeBuild/
+.cxx/
+
+# Captures folder (screenshots/recordings)
+captures/
+
+# Kotlin specific
+*.kotlin_module
+
+# Log files
+*.log
+
+# Generated files by Compose, DataBinding, etc.
+.kapt/
+.ksp/
+
+# Misc
+*.orig
