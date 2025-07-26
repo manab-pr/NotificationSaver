@@ -13,4 +13,7 @@ interface NotificationDao {
 
     @Insert
     suspend fun insert(notification: NotificationEntity)
+
+    @Query("DELETE FROM notifications WHERE id = :id")
+    suspend fun deleteById(id: Long)
 }

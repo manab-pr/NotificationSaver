@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">NotificationSaver</string>
     <string name="header_title">NotificationSaver</string>
+    <string name="app_icon">App Icon</string>
+    <string name="notification_icon">Notification Icon</string>
+    
+    <!-- Permission explanations -->
+    <string name="permission_notification_title">Notification Access Permission</string>
+    <string name="permission_notification_description">This app needs notification access to save and organize your notifications for easy viewing. Your notification data stays private on your device.</string>
+    <string name="permission_storage_title">Storage Permission</string>
+    <string name="permission_storage_description">Used to save notification data locally on your device for offline access.</string>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_text">NotificationSaver is designed with privacy in mind:\n\n• All notification data is stored locally on your device\n• No data is sent to external servers\n• No personal information is collected or shared\n• You can delete all data anytime from settings</string>
+    <string name="data_usage_title">How We Use Your Data</string>
+    <string name="data_usage_text">This app only accesses notifications to:\n\n• Display them in an organized view\n• Save them locally for future reference\n• Allow you to search and filter them\n\nYour data never leaves your device.</string>
 </resources>
